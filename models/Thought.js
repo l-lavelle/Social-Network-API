@@ -1,25 +1,55 @@
 const mongoose = require("mongoose");
 
-const thoughtSchema = new mongoose.Schema({
-  thoughtText: {
+const reactionSchema = new mongoose.Schema({
+  reactionId: {},
+  reactionBody: {
     type: String,
-    minLength: 1,
+    required: [true, "Must have a reaction"],
     maxLength: 280,
-    required: true,
-  },
-  createdAt: {
-    // Date
-    // Set default value to the current timestamp
-    // Use a getter method to format the timestamp on query
   },
   username: {
     type: String,
-    required: true,
-    // (The user that created this thought)
+    required: [true, "Username is required"],
   },
-  reactions: {
-    // (These are like replies)
-    // Array of nested documents created with the reactionSchema
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    // get:
+    // Use a getter method to format the timestamp on query
   },
 });
-// Create a virtual called reactionCount that retrieves the length of the thought's reactions array field on query.
+const thoughtSchema = new mongoose.Schema(
+  {
+    thoughtText: {
+      type: String,
+      minLength: 1,
+      maxLength: 280,
+      required: [true, "Thought is required"],
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      // get:
+      // Use a getter method to format the timestamp on query
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    reactions: [reactionSchema],
+  },
+  {
+    toJson: {
+      virtuals: true,
+    },
+    // id false??
+  }
+);
+
+thoughtSchema.virtual("reactionCount").get(function () {
+  return this.reactions.length;
+});
+
+const Thought = model("Thought", thoughtSchema);
+
+module.exports = Thought;
