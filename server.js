@@ -14,3 +14,6 @@ db.once("open", () => {
     console.log(`API server running on port ${PORT}!`);
   });
 });
+
+// references:
+// https://www.youtube.com/watch?v=TZPygUt6H00: virtuals
