@@ -1,7 +1,5 @@
-// /api/users
+// need to populate get single id
 
-// GET a single user by its _id and populated thought and friend data
-// POST a new user:
 // PUT to update a user by its _id
 // DELETE to remove user by its _id
 // BONUS: Remove a user's associated thoughts when deleted.
@@ -10,7 +8,7 @@
 // POST to add a new friend to a user's friend list
 // DELETE to remove a friend from a user's friend list
 const router = require("express").Router();
-const { User } = require("../../models");
+const { User, Thought } = require("../../models");
 
 // GET all users
 router.get("/", async (req, res) => {
@@ -18,7 +16,22 @@ router.get("/", async (req, res) => {
     const result = await User.find({});
     res.status(200).json(result);
   } catch (err) {
-    res.status(500).json({ error: "Error" });
+    res.status(500).json({ error: "Unable to get all users" });
+  }
+});
+
+// GET a single user by its _id and populated thought and friend data
+router.get("/:userId", async (req, res) => {
+  try {
+    const singleUser = await User.findOne({
+      _id: req.params.userId,
+    })
+      .select("-__v")
+      .populate("thoughts");
+
+    res.status(200).json(singleUser);
+  } catch (err) {
+    res.status(500).json({ error: "Unable to get user" });
   }
 });
 
@@ -32,7 +45,7 @@ router.post("/", (req, res) => {
   if (newUser) {
     res.status(201).json(newUser);
   } else {
-    res.status(500).json({ error: "Error" });
+    res.status(500).json({ error: "New user not created" });
   }
 });
 

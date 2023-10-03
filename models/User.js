@@ -14,9 +14,7 @@ const userSchema = new Schema(
       required: [true, "Email is required"],
       match: [/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/],
     },
-    thoughts: {
-      references: [{ type: Schema.Types.ObjectId, ref: "Thought" }],
-    },
+    thoughts: [{ type: Schema.Types.ObjectId, ref: "Thought" }],
     friends: {
       references: [{ type: Schema.Types.ObjectId, ref: "User" }],
     },

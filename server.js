@@ -16,3 +16,8 @@ db.once("open", () => {
     console.log(`API server running on port ${PORT}!`);
   });
 });
+// const moment = require("moment");
+// function formatDate(createdAt) {
+//   return moment(createdAt).format(`MM-DD-YYYY`);
+// }
+// console.log(formatDate("2023-10-03T22:30:48.966Z"));

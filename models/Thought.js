@@ -1,7 +1,11 @@
 const { Schema, model } = require("mongoose");
+const moment = require("moment");
 
 const reactionSchema = new Schema({
-  reactionId: {},
+  reactionId: {
+    type: Schema.Types.ObjectId,
+    default: () => new Types.ObjectId(),
+  },
   reactionBody: {
     type: String,
     required: [true, "Must have a reaction"],
@@ -14,8 +18,7 @@ const reactionSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    // get:
-    // Use a getter method to format the timestamp on query
+    get: formatDate,
   },
 });
 const thoughtSchema = new Schema(
@@ -29,8 +32,7 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      // get:
-      // Use a getter method to format the timestamp on query
+      get: formatDate,
     },
     username: {
       type: String,
@@ -39,13 +41,17 @@ const thoughtSchema = new Schema(
     reactions: [reactionSchema],
   },
   {
-    toJson: {
+    toJSON: {
       virtuals: true,
+      getters: true,
     },
     id: false,
   }
 );
 
+function formatDate(value) {
+  return moment(value).format(`MM-DD-YYYY`);
+}
 thoughtSchema.virtual("reactionCount").get(function () {
   return this.reactions.length;
 });

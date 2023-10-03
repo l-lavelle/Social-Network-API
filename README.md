@@ -30,7 +30,8 @@ MIT License
 ## Contributing
 
 The following websites were used for reference to create this application:<br />
-Mongoose Virtuals: https://www.youtube.com/watch?v=TZPygUt6H00
+Mongoose Virtuals: https://www.youtube.com/watch?v=TZPygUt6H00<br>
+https://mongoosejs.com/docs/tutorials/getters-setters.html
 
 ## Walkthrough Video
 
