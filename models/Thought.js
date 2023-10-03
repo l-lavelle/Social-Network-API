@@ -42,7 +42,7 @@ const thoughtSchema = new mongoose.Schema(
     toJson: {
       virtuals: true,
     },
-    // id false??
+    id: false,
   }
 );
 

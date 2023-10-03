@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema(
   },
   {
     toJSON: { virtuals: true },
-    // id: false,?? havent leaved in class yet
+    id: false,
   }
 );
 
