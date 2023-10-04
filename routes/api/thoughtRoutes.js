@@ -7,7 +7,7 @@
 // POST to create a reaction stored in a single thought's reactions array field
 // DELETE to pull and remove a reaction by the reaction's reactionId value
 const router = require("express").Router();
-const { Thought } = require("../../models");
+const { Thought, User } = require("../../models");
 
 // Get all thoughts
 router.get("/", async (req, res) => {
@@ -33,16 +33,19 @@ router.get("/:thoughtId", async (req, res) => {
 //make sure user already exists
 router.post("/", async (req, res) => {
   try {
-    const newThought = new Thought({
-      thoughtText: req.body.text,
-      username: req.body.username,
-    });
-    // if (!username) {
-    //   return res.status(404).json({ message: "No video with that ID" });
-    // }
+    const newThought = await Thought.create(req.body);
+    const user = await User.findOneAndUpdate(
+      { _id: req.body.userId },
+      { $addToSet: { thoughts: newThought._id } },
+      { new: true }
+    );
+    if (!user) {
+      return res.status(404).json({ message: "No user with that id" });
+    }
     newThought.save();
     res.status(200).json(newThought);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ error: "Unable to create new post" });
   }
 });
