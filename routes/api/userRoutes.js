@@ -1,5 +1,5 @@
 //populate friend data in user single _id
-// DELETE to remove user by its _id
+
 // BONUS: Remove a user's associated thoughts when deleted.
 
 // /api/users/:userId/friends/:friendId
@@ -65,4 +65,21 @@ router.put("/:userId", async (req, res) => {
   }
 });
 
+// DELETE to remove user by its _id
+router.delete("/:userId", async (req, res) => {
+  try {
+    const deleteUser = await User.findOneAndRemove(
+      { _id: req.params.userId },
+      { $set: req.body },
+      { new: true }
+    );
+    if (!deleteUser) {
+      return res.status(404).json({ message: "No user with this id!" });
+    }
+    res.status(200).json({ message: "User has been deleted" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
 module.exports = router;
