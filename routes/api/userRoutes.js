@@ -92,13 +92,28 @@ router.post("/:userId/friends/:friendId", async (req, res) => {
     if (!friend) {
       return res.status(404).json({ message: "No user with that id" });
     }
-    // newThought.save();
     res.status(200).json(friend);
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Unable to create new post" });
   }
 });
-// DELETE to remove a friend from a user's friend list
 
+// DELETE to remove a friend from a user's friend list
+router.put("/:userId/friends/:friendId", async (req, res) => {
+  try {
+    const friend = await User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $pull: { friends: req.params.friendId } },
+      { new: true }
+    );
+    if (!friend) {
+      return res.status(404).json({ message: "No user with that id" });
+    }
+    res.status(200).json(friend);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Unable to create new post" });
+  }
+});
 module.exports = router;
