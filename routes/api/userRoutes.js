@@ -1,6 +1,4 @@
-// need to populate get single id
-
-// PUT to update a user by its _id
+//populate friend data in user single _id
 // DELETE to remove user by its _id
 // BONUS: Remove a user's associated thoughts when deleted.
 
@@ -46,6 +44,24 @@ router.post("/", (req, res) => {
     res.status(201).json(newUser);
   } else {
     res.status(500).json({ error: "New user not created" });
+  }
+});
+
+// PUT to update a user by its _id
+router.put("/:userId", async (req, res) => {
+  try {
+    const user = await User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $set: req.body },
+      { new: true }
+    );
+    if (!user) {
+      return res.status(404).json({ message: "No user with this id!" });
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
   }
 });
 
