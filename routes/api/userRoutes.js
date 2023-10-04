@@ -1,10 +1,7 @@
 //populate friend data in user single _id
-
+// Clean up code
 // BONUS: Remove a user's associated thoughts when deleted.
 
-// /api/users/:userId/friends/:friendId
-// POST to add a new friend to a user's friend list
-// DELETE to remove a friend from a user's friend list
 const router = require("express").Router();
 const { User, Thought } = require("../../models");
 
@@ -25,7 +22,8 @@ router.get("/:userId", async (req, res) => {
       _id: req.params.userId,
     })
       .select("-__v")
-      .populate("thoughts");
+      .populate("thoughts")
+      .populate("friends");
 
     res.status(200).json(singleUser);
   } catch (err) {
@@ -82,4 +80,25 @@ router.delete("/:userId", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+// POST to add a new friend to a user's friend list
+router.post("/:userId/friends/:friendId", async (req, res) => {
+  try {
+    const friend = await User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $push: { friends: req.params.friendId } },
+      { new: true }
+    );
+    if (!friend) {
+      return res.status(404).json({ message: "No user with that id" });
+    }
+    // newThought.save();
+    res.status(200).json(friend);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Unable to create new post" });
+  }
+});
+// DELETE to remove a friend from a user's friend list
+
 module.exports = router;
