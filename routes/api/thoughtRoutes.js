@@ -80,7 +80,6 @@ router.delete("/:userId", async (req, res) => {
 });
 
 // POST to create a reaction stored in a single thought's reactions array field
-// getter not working
 router.post("/:thoughtId/reactions", async (req, res) => {
   try {
     const thought = await Thought.findOneAndUpdate(
@@ -96,4 +95,20 @@ router.post("/:thoughtId/reactions", async (req, res) => {
 });
 
 // DELETE to pull and remove a reaction by the reaction's reactionId value
+router.put("/:thoughtId/reactions/:reactionId", async (req, res) => {
+  try {
+    const thought = await Thought.updateOne(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions: { _id: req.params.reactionId } } },
+      { new: true }
+    );
+    if (!thought) {
+      return res.status(404).json({ message: "No reaction with that id" });
+    }
+    res.status(200).json(thought);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
 module.exports = router;

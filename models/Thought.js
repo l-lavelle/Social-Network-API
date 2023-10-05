@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
 const moment = require("moment");
 
+// Create Reaction Schema
 const reactionSchema = new Schema(
   {
     reactionId: {
@@ -30,6 +31,8 @@ const reactionSchema = new Schema(
     id: false,
   }
 );
+
+// Create Thought Schema
 const thoughtSchema = new Schema(
   {
     thoughtText: {
@@ -58,13 +61,17 @@ const thoughtSchema = new Schema(
   }
 );
 
+// Getter function to format date
 function formatDate(value) {
   return moment(value).format(`MM-DD-YYYY`);
 }
+
+// Virtual to count number of reactions
 thoughtSchema.virtual("reactionCount").get(function () {
   return this.reactions.length;
 });
 
+// Create new model with thoughtSchema
 const Thought = model("Thought", thoughtSchema);
 
 module.exports = Thought;
