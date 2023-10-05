@@ -23,8 +23,7 @@ router.get("/:thoughtId", async (req, res) => {
   }
 });
 
-//  (don't forget to push the created thought's _id to the associated user's thoughts array field)
-//make sure user already exists
+// Post a new thought
 router.post("/", async (req, res) => {
   try {
     const newThought = await Thought.create(req.body);
@@ -80,15 +79,21 @@ router.delete("/:userId", async (req, res) => {
   }
 });
 
-// /api/thoughts/:thoughtId/reactions
 // POST to create a reaction stored in a single thought's reactions array field
-// DELETE to pull and remove a reaction by the reaction's reactionId value
+// getter not working
 router.post("/:thoughtId/reactions", async (req, res) => {
   try {
-    const reaction = await Thought.create;
+    const thought = await Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $addToSet: { reactions: req.body } },
+      { new: true }
+    );
+    res.status(200).json(thought);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
   }
 });
+
+// DELETE to pull and remove a reaction by the reaction's reactionId value
 module.exports = router;
