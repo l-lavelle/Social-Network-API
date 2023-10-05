@@ -1,4 +1,3 @@
-//populate friend data in user single _id
 // Clean up code
 // BONUS: Remove a user's associated thoughts when deleted.
 
@@ -99,7 +98,7 @@ router.post("/:userId/friends/:friendId", async (req, res) => {
   }
 });
 
-// DELETE to remove a friend from a user's friend list
+// Update to remove a friend from a user's friend list
 router.put("/:userId/friends/:friendId", async (req, res) => {
   try {
     const friend = await User.findOneAndUpdate(
@@ -116,4 +115,5 @@ router.put("/:userId/friends/:friendId", async (req, res) => {
     res.status(500).json({ error: "Unable to create new post" });
   }
 });
+
 module.exports = router;
