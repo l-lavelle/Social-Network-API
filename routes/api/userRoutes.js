@@ -1,8 +1,7 @@
-// Clean up code
 // BONUS: Remove a user's associated thoughts when deleted.
 
 const router = require("express").Router();
-const { User, Thought } = require("../../models");
+const { User } = require("../../models");
 
 // GET all users
 router.get("/", async (req, res) => {
@@ -109,7 +108,7 @@ router.put("/:userId/friends/:friendId", async (req, res) => {
     if (!friend) {
       return res.status(404).json({ message: "No user with that id" });
     }
-    res.status(200).json(friend);
+    res.status(200).json({ message: "Friend has been deleted" });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Unable to create new post" });
