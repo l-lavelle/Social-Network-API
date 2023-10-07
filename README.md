@@ -36,6 +36,9 @@ Node Dependencies:
 
 To run the application locally use npm install to install all node packages. Then run node server.js in the command line. <br>
 All routes can be tested in API platform like Insomnia or Postman.
+<br>
+Testing Get all users route in Postman:
+<img src="./images/Get-users.png" width='550' height='auto'><br>
 
 ## License
 
@@ -50,4 +53,4 @@ https://www.youtube.com/watch?v=YDLjahSfZ10
 
 ## Walkthrough Video
 
-[Video Demonstration]()
+[Video Demonstration](https://drive.google.com/file/d/1fizxE_igKnDTE1ungzFxdtFupx13BYGw/view)
