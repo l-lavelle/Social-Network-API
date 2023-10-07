@@ -1,5 +1,3 @@
-// BONUS: Remove a user's associated thoughts when deleted.
-
 const router = require("express").Router();
 const { User } = require("../../models");
 

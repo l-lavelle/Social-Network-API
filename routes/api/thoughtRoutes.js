@@ -44,10 +44,10 @@ router.post("/", async (req, res) => {
 });
 
 // PUT to update a thought by its _id
-router.put("/:userId", async (req, res) => {
+router.put("/:thoughtId", async (req, res) => {
   try {
     const thought = await Thought.findOneAndUpdate(
-      { _id: req.params.userId },
+      { _id: req.params.thoughtId },
       { $set: req.body },
       { new: true }
     );
@@ -62,10 +62,10 @@ router.put("/:userId", async (req, res) => {
 });
 
 // DELETE to remove a thought by its _id
-router.delete("/:userId", async (req, res) => {
+router.delete("/:thoughtId", async (req, res) => {
   try {
     const thought = await Thought.findOneAndRemove(
-      { _id: req.params.userId },
+      { _id: req.params.thoughtId },
       { $set: req.body },
       { new: true }
     );
@@ -111,4 +111,5 @@ router.put("/:thoughtId/reactions/:reactionId", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 module.exports = router;
