@@ -1,5 +1,3 @@
-// make sure everyhting is running though routes correctly
-
 const router = require("express").Router();
 const { Thought, User } = require("../../models");
 
